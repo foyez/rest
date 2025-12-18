@@ -370,7 +370,6 @@ Examples:
 
 ### Example Requests & Responses of (4xx)
 
-
 <details>
 <summary>View contents</summary>
 
@@ -449,6 +448,7 @@ POST /users
 {
   "error": "Email already exists"
 }
+```
 
 **Use case:** Email or username already exists
 
