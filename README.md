@@ -73,13 +73,13 @@ GET /api/v1/products
 
 ### Status Code Categories
 
-| Range | Meaning       | Details                                                             |
-| ----: | ------------- | ------------------------------------------------------------------- |
-|   1xx | Informational | Request received; processing is continuing                          |
-|   2xx | Success       | Request was successfully received, understood, and processed        |
-|   3xx | Redirection   | Client must take additional action to complete the request          |
-|   4xx | Client Error  | Request is invalid or cannot be fulfilled due to client-side issues |
-|   5xx | Server Error  | Request was valid, but the server failed to process it              |
+| Range | Meaning       | Description                              |
+| ----: | ------------- | ---------------------------------------- |
+|   1xx | Informational | Request received                         |
+|   2xx | Success       | Request successfully processed           |
+|   3xx | Redirection   | Further action required                  |
+|   4xx | Client Error  | Invalid request or client issue          |
+|   5xx | Server Error  | Server failed to process a valid request |
 
 ---
 
@@ -94,15 +94,16 @@ GET /api/v1/products
 | **202 Accepted**   | Request accepted but processed asynchronously           |
 | **204 No Content** | Success with no response body (DELETE, sometimes PUT)   |
 
-### Example Requests & Responses of 2xx
+---
 
+### Example Requests & Responses of (2xx)
 
 <details>
 <summary>View contents</summary>
 
 ## 1. Create a Resource
 
-### **Request**
+### Request
 
 **Endpoint**
 
@@ -234,8 +235,8 @@ PUT /posts/123
 }
 ```
 
-✔ Missing fields are removed
-✔ Use only when client sends full resource
+- Missing fields are removed
+- Use only when client sends full resource
 
 ---
 
@@ -281,25 +282,41 @@ PATCH /posts/123
 }
 ```
 
-✔ Updates only provided fields
-✔ Safer and more common
+- Updates only provided fields
+- Safer and more common
 
 ## 5. DELETE - Delete a post
+
+### **Request**
+
+**Endpoint**
 
 ```http
 DELETE /posts/123
 ```
 
-**Success**
+### Response (Success)
+
+**Status**
 
 ```http
 204 No Content
 ```
 
-**If not found**
+### Response (Not Found)
+
+**Status**
 
 ```http
 404 Not Found
+```
+
+**Body**
+
+```json
+{
+  "error": "Post not found"
+}
 ```
 
 </details>
@@ -310,12 +327,10 @@ DELETE /posts/123
 
 #### 400 vs 422 (Validation Errors)
 
-| Code                         | When to use                                        |
-| ---------------------------- | -------------------------------------------------- |
-| **400 Bad Request**          | Invalid or malformed request                       |
+|                         Code | Usage                                              |
+| ---------------------------: | -------------------------------------------------- |
+|          **400 Bad Request** | Malformed request / invalid JSON                   |
 | **422 Unprocessable Entity** | Validation failed (missing fields, invalid values) |
-
-✔ Example:
 
 * Missing required field → **422**
 * Invalid JSON → **400**
@@ -324,14 +339,12 @@ DELETE /posts/123
 
 ### Authentication & Authorization
 
-#### 401 vs 403 (Very Common Confusion)
-
 | Code                 | Meaning                                     | Real Use Case                       |
 | -------------------- | ------------------------------------------- | ----------------------------------- |
 | **401 Unauthorized** | Client is **not authenticated**             | Missing or invalid token            |
 | **403 Forbidden**    | Client is authenticated but **not allowed** | User logged in but lacks permission |
 
-✔ Examples:
+Examples:
 
 * No JWT token → **401**
 * Logged in user trying to access admin-only endpoint → **403**
@@ -355,7 +368,7 @@ DELETE /posts/123
 
 ---
 
-### Example Requests & Responses of 4xx
+### Example Requests & Responses of (4xx)
 
 
 <details>
@@ -432,19 +445,24 @@ POST /users
 409 Conflict
 ```
 
+```json
+{
+  "error": "Email already exists"
+}
+
 **Use case:** Email or username already exists
 
 </details>
 
 ### Server Errors (5xx)
 
-| Code | When to use                    |
-| ---- | ------------------------------ |
-| 500  | Unexpected server error        |
-| 501  | Feature not implemented        |
-| 502  | Invalid upstream response      |
-| 503  | Server temporarily unavailable |
-| 504  | Upstream timeout               |
+| Code | Usage                 |
+| ---: | --------------------- |
+|  500 | Internal server error |
+|  501 | Not implemented       |
+|  502 | Bad gateway           |
+|  503 | Service unavailable   |
+|  504 | Gateway timeout       |
 
 ### 500 — Internal Server Error
 
@@ -570,7 +588,7 @@ Retry-After: 60
 }
 ```
 
-✔ Use `Retry-After` header if possible
+- Use `Retry-After` header if possible
 
 ---
 
@@ -632,6 +650,8 @@ Retry-After: 60
 | Conflict           | 409  |
 | Server error       | 500  |
 
+---
+
 ## REST API Design Checklist
 
 -  Resource-based URLs (`/posts`, `/users`)
@@ -644,6 +664,8 @@ Retry-After: 60
 - Stateless requests
 - Secure with HTTPS
 
+---
+
 ## Best Practices Summary
 
 - Use **nouns** for endpoints
@@ -654,5 +676,8 @@ Retry-After: 60
 - Use **422 for validation errors**
 - Version your API
 
+---
 
-[resource - http status codes](https://restfulapi.net/http-status-codes/)
+### Reference
+
+* [https://restfulapi.net/http-status-codes/](https://restfulapi.net/http-status-codes/)
