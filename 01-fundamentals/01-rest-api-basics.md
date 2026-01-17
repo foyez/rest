@@ -1,5 +1,29 @@
 # 1.1 REST API Basics
 
+## What is an API?
+
+An **API (Application Programming Interface)** is a contract that defines how software components communicate. It specifies:
+- What operations are available
+- What data to send
+- What data you'll get back
+- How errors are handled
+
+Think of it like a restaurant menu: it tells you what you can order (endpoints), what information you need to provide (parameters), and what you'll receive (response).
+
+APIs can be:
+
+* Web-based
+* Local (inside the same machine)
+* Based on different protocols and styles
+
+**Examples**
+
+* Payment API (Stripe, PayPal)
+* Weather API
+* Database API
+* OS APIs (Windows API, POSIX)
+
+
 ## What is REST?
 
 **REST (Representational State Transfer)** is an architectural style for designing networked applications, defined by Roy Fielding in 2000.
